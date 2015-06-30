@@ -14,7 +14,7 @@
   <tbody>
 <%= for post <- @posts do %>
     <tr>
-      <td><img src='<%= @post.image_url %>' /></td>
+      <td><img src='<%= post.image_url %>' /></td>
       <td><%= post.image_url %></td>
       <td><%= post.content %></td>
       <td><%= post.source_url %></td>
