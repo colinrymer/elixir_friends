@@ -33,3 +33,19 @@ config :elixir_friends, ElixirFriends.Repo,
   password: "postgres",
   database: "elixir_friends_dev",
   size: 10 # The amount of database connections in the pool
+
+# Openmaize authentication library configuration
+config :openmaize,
+  user_model: ElixirFriends.User,
+  repo: ElixirFriends.Repo,
+  crypto: :bcrypt,
+  login_dir: "/admin",
+  redirect_pages: %{"admin" => "/admin", "user" => "/users", nil => "/"},
+  protected: %{"/admin" => ["admin"],
+    "/users" => ["admin", "user"],
+    "/users/:id" => ["user"],
+    "/api/users" => ["admin"]
+  },
+  secret_key: "53kr37",
+  token_info: [:email],
+  token_validity: 600
