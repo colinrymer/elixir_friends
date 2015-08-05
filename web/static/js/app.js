@@ -10,4 +10,15 @@ import {Socket} from "phoenix"
 let App = {
 }
 
+let Post = React.createClass({
+  render() {
+    return(<p>The app goes here...</p>)
+  }
+})
+
+window.onload = () => {
+  var element = document.getElementById("app")
+  React.render(<Post />, element)
+}
+
 export default App
