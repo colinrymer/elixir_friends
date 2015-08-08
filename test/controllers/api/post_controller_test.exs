@@ -7,15 +7,25 @@ defmodule ElixirFriends.API.PostControllerTest do
     {:ok, conn: conn}
   end
 
-  test "lists all entries on index", %{conn: conn} do
+  test "list all posts", %{conn: conn} do
+    post = %Post{
+      image_url: "http://elixirfriends.com",
+      content: "This is some content",
+      username: "knewter",
+      source_url: "http://elixirfriends.com"
+    }
+    inserted_post = post |> ElixirFriends.Repo.insert!
+
     conn = get conn, "/api/posts"
+
     expected_response = %{
-      total_pages: 0,
-      total_entries: 0,
+      total_pages: 1,
+      total_entries: 1,
       page_size: 20,
       page_number: 1,
-      entries: []
+      entries: [inserted_post]
     } |> Poison.encode!
+
     assert json_response(conn, 200) == expected_response
   end
 end
