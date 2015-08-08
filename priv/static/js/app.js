@@ -32241,16 +32241,71 @@ var Post = React.createClass({
 
   render: function render() {
     return React.createElement(
-      "p",
-      null,
-      "The app goes here..."
+      "div",
+      { className: "four wide column" },
+      React.createElement(
+        "div",
+        { className: "ui card" },
+        React.createElement(
+          "div",
+          { className: "image" },
+          React.createElement("img", { src: this.props.imageUrl })
+        ),
+        React.createElement(
+          "div",
+          { className: "content" },
+          React.createElement(
+            "div",
+            { className: "header" },
+            this.props.username
+          ),
+          React.createElement(
+            "div",
+            { className: "meta" },
+            React.createElement(
+              "span",
+              { className: "date" },
+              this.props.insertedAt
+            )
+          ),
+          React.createElement(
+            "div",
+            { className: "description" },
+            this.props.content
+          )
+        )
+      )
+    );
+  }
+});
+
+var PostList = React.createClass({
+  displayName: "PostList",
+
+  getInitialState: function getInitialState() {
+    return {
+      posts: [{
+        imageUrl: "http://placekitten.com/g/200/300",
+        username: "knewter",
+        insertedAt: "July 25, 2015",
+        content: "zomg a kitty"
+      }]
+    };
+  },
+  render: function render() {
+    return React.createElement(
+      "div",
+      { className: "ui grid stackable" },
+      this.state.posts.map(function (post) {
+        return React.createElement(Post, post);
+      })
     );
   }
 });
 
 window.onload = function () {
   var element = document.getElementById("app");
-  React.render(React.createElement(Post, null), element);
+  React.render(React.createElement(PostList, null), element);
 };
 
 exports["default"] = App;
