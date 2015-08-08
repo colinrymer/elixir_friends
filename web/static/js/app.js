@@ -38,6 +38,11 @@ let Post = React.createClass({
 let PostList = React.createClass({
   getInitialState() {
     return {
+      posts: []
+    }
+  },
+  componentDidMount() {
+    this.setState({
       posts: [
         {
           imageUrl: 'http://placekitten.com/g/200/300',
@@ -46,7 +51,7 @@ let PostList = React.createClass({
           content: 'zomg a kitty'
         }
       ]
-    }
+    })
   },
   render() {
     return(

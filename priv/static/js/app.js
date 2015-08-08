@@ -32284,13 +32284,18 @@ var PostList = React.createClass({
 
   getInitialState: function getInitialState() {
     return {
+      posts: []
+    };
+  },
+  componentDidMount: function componentDidMount() {
+    this.setState({
       posts: [{
         imageUrl: "http://placekitten.com/g/200/300",
         username: "knewter",
         insertedAt: "July 25, 2015",
         content: "zomg a kitty"
       }]
-    };
+    });
   },
   render: function render() {
     return React.createElement(
