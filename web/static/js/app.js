@@ -42,22 +42,16 @@ let PostList = React.createClass({
     }
   },
   componentDidMount() {
-    this.setState({
-      posts: [
-        {
-          imageUrl: 'http://placekitten.com/g/200/300',
-          username: 'knewter',
-          insertedAt: 'July 25, 2015',
-          content: 'zomg a kitty'
-        }
-      ]
+    $.get(this.props.source, result => {
+      result = JSON.parse(result) // No idea why this is necessary here...
+      this.setState({posts: result.entries})
     })
   },
   render() {
     return(
       <div className="ui grid stackable">
         {this.state.posts.map(function(post) {
-          return <Post {...post} />
+          return <Post imageUrl={post.image_url} username={post.username} insertedAt={post.inserted_at} content={post.content} />
         })}
       </div>
     )
@@ -66,7 +60,7 @@ let PostList = React.createClass({
 
 window.onload = () => {
   var element = document.getElementById("app")
-  React.render(<PostList />, element)
+  React.render(<PostList source="/api/posts"/>, element)
 }
 
 export default App

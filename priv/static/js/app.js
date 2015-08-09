@@ -32288,13 +32288,11 @@ var PostList = React.createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    this.setState({
-      posts: [{
-        imageUrl: "http://placekitten.com/g/200/300",
-        username: "knewter",
-        insertedAt: "July 25, 2015",
-        content: "zomg a kitty"
-      }]
+    var _this = this;
+
+    $.get(this.props.source, function (result) {
+      result = JSON.parse(result); // No idea why this is necessary here...
+      _this.setState({ posts: result.entries });
     });
   },
   render: function render() {
@@ -32302,7 +32300,7 @@ var PostList = React.createClass({
       "div",
       { className: "ui grid stackable" },
       this.state.posts.map(function (post) {
-        return React.createElement(Post, post);
+        return React.createElement(Post, { imageUrl: post.image_url, username: post.username, insertedAt: post.inserted_at, content: post.content });
       })
     );
   }
@@ -32310,7 +32308,7 @@ var PostList = React.createClass({
 
 window.onload = function () {
   var element = document.getElementById("app");
-  React.render(React.createElement(PostList, null), element);
+  React.render(React.createElement(PostList, { source: "/api/posts" }), element);
 };
 
 exports["default"] = App;
