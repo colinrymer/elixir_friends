@@ -1,11 +1,4 @@
-import {Socket} from "phoenix"
-
-// let socket = new Socket("/ws")
-// socket.connect()
-// let chan = socket.chan("topic:subtopic", {})
-// chan.join().receive("ok", chan => {
-//   console.log("Success!")
-// })
+import {Socket} from "deps/phoenix/web/static/js/phoenix"
 
 let App = {
 }
@@ -17,11 +10,30 @@ let PostList = React.createClass({
     }
   },
   componentDidMount() {
+    // Get the new posts, and set our state
     $.get(this.props.source, result => {
       result = JSON.parse(result)
       this.setState({
         posts: result.entries
       })
+    })
+    this.subscribeToNewPosts();
+  },
+  subscribeToNewPosts() {
+    let socket = new Socket("/socket")
+    socket.connect()
+    let channel = socket.channel("posts:new", {})
+    channel.join().receive("ok", chan => {
+      console.log("joined")
+    })
+    channel.on("new:post", post => {
+      console.log(post)
+      this.injectNewPost(post)
+    })
+  },
+  injectNewPost(post) {
+    this.setState({
+      posts: [post].concat(this.state.posts)
     })
   },
   render() {
